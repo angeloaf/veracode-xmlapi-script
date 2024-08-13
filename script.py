@@ -2,6 +2,7 @@ import requests
 from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 import xml.etree.ElementTree as ET
 import time
+import argparse
 
 # URL base de la API de Veracode
 BASE_URL = 'https://analysiscenter.veracode.com/api/5.0/'
@@ -11,29 +12,23 @@ BEGINPRESCAN_ENDPOINT = 'beginprescan.do'
 GET_BUILD_INFO_ENDPOINT = 'getbuildinfo.do'
 DETAILEDREPORT_ENDPOINT = 'detailedreport.do'
 
-def get_app_id(app_name):
+def list_apps():
     url = BASE_URL + GET_APP_LIST_ENDPOINT
     auth = RequestsAuthPluginVeracodeHMAC()
     try:
-        # Realizar la solicitud GET
         response = requests.get(url, auth=auth)
-        response.raise_for_status()  # Lanza una excepción para códigos de estado HTTP 4xx/5xx
+        response.raise_for_status()
         
-        # Parsear el XML de la respuesta
         root = ET.fromstring(response.text)
-        
-        # Buscar la aplicación por nombre y devolver el app_id
         namespace = {'ns': 'https://analysiscenter.veracode.com/schema/2.0/applist'}
+        
         for app in root.findall('ns:app', namespace):
-            if app.get('app_name') == app_name:
-                return app.get('app_id')
-        
-        print(f"Aplicación con nombre '{app_name}' no encontrada.")
-        return None
-        
+            app_id = app.get('app_id')
+            app_name = app.get('app_name')
+            print(f"App Name: {app_name}, App ID: {app_id}")
+            
     except requests.exceptions.RequestException as e:
         print(f"Error en la solicitud getapplist: {e}")
-        return None
 
 def upload_file(app_id, file_path):
     url = BASE_URL + UPLOAD_FILE_ENDPOINT
@@ -137,28 +132,27 @@ def get_detailed_report(build_id):
         print(f"Error en la solicitud detailedreport: {e}")
 
 if __name__ == '__main__':
-    # Solicitar el nombre de la aplicación por consola
-    app_name = input("Introduce el nombre de la aplicación: ")
+    parser = argparse.ArgumentParser(description='Script para interactuar con la API XML de Veracode.')
+    parser.add_argument('--list_apps', action='store_true', help='Lista todas las aplicaciones con sus IDs.')
+    parser.add_argument('--app_id', type=str, help='El ID de la aplicación.')
+    parser.add_argument('--file_path', type=str, help='La ruta del archivo a analizar.')
     
-    # Obtener el app_id
-    app_id = get_app_id(app_name)
-    if app_id:
-        print(f"El ID de la aplicación '{app_name}' es: {app_id}")
-        
-        # Solicitar datos de entrada por consola
-        file_path = input("Introduce la ruta del archivo a subir: ")
-        
+    args = parser.parse_args()
+    
+    if args.list_apps:
+        list_apps()
+    elif args.app_id and args.file_path:
         # Ejecutar la carga del archivo
-        upload_file(app_id, file_path)
+        upload_file(args.app_id, args.file_path)
         
         # Ejecutar el prescan
-        build_id = begin_prescan(app_id)
+        build_id = begin_prescan(args.app_id)
         
         if build_id:
             # Verificar el estado del escaneo
-            check_scan_status(app_id, build_id)
+            check_scan_status(args.app_id, build_id)
             
             # Ejecutar la solicitud del informe detallado
             get_detailed_report(build_id)
     else:
-        print(f"No se encontró la aplicación con nombre '{app_name}'.")
+        print("Debe especificar '--list_apps' para listar las aplicaciones o '--app_id' y '--file_path' para realizar un análisis.")

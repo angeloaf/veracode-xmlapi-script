@@ -24,13 +24,13 @@ cd veracode-api-script
 Seguir los pasos descritos en la documentación para administrar correctamente las credenciales. 
 Link: https://docs.veracode.com/r/c_api_credentials3
 
-## Manual de uso
+# Manual de uso
 El script tiene dos funcionalidades principales que puedes ejecutar desde la línea de comandos:
 
 Listar Aplicaciones
 Subir un Archivo y Ejecutar un Escaneo
 
-# Opción 1: Listar Aplicaciones
+## Opción 1: Listar Aplicaciones
 Esta opción lista todas las aplicaciones disponibles en tu cuenta de Veracode.
 
 Comando para listar aplicaciones:
@@ -40,7 +40,7 @@ python tu_script.py --list_apps
 Esto ejecutará la función list_apps(), que hará una solicitud a la API de Veracode para obtener la lista de aplicaciones y sus IDs. Imprimirá los nombres y IDs de las aplicaciones en la consola.
 
 
-# Opción 2: Subir un Archivo y Ejecutar un Escaneo
+## Opción 2: Subir un Archivo y Ejecutar un Escaneo
 Esta opción permite subir un archivo a Veracode y luego ejecutar un escaneo prescan. Después, verifica el estado del escaneo y descarga el informe detallado.
 
 Preparación del comando:

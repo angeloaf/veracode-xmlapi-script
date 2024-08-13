@@ -34,8 +34,9 @@ Subir un Archivo y Ejecutar un Escaneo
 Esta opción lista todas las aplicaciones disponibles en tu cuenta de Veracode.
 
 Comando para listar aplicaciones:
+```bash
 python tu_script.py --list_apps
-
+```
 Esto ejecutará la función list_apps(), que hará una solicitud a la API de Veracode para obtener la lista de aplicaciones y sus IDs. Imprimirá los nombres y IDs de las aplicaciones en la consola.
 
 
@@ -46,8 +47,9 @@ Preparación del comando:
 Necesitarás proporcionar dos argumentos: --app_id (ID de la aplicación) y --file_path (ruta del archivo que deseas analizar).
 
 Comando para subir un archivo y ejecutar un escaneo:
+```bash
 python tu_script.py --app_id <ID_DE_LA_APLICACION> --file_path <RUTA_DEL_ARCHIVO>
-
+```
 Reemplaza <ID_DE_LA_APLICACION> con el ID de la aplicación donde deseas subir el archivo.
 Reemplaza <RUTA_DEL_ARCHIVO> con la ruta al archivo que deseas analizar.
 
@@ -60,10 +62,14 @@ Reemplaza <RUTA_DEL_ARCHIVO> con la ruta al archivo que deseas analizar.
 
 #Ejemplo de Uso
 Supongamos que quieres listar aplicaciones en Veracode:
+```bash
 python tu_script.py --list_apps
+```
 
 Si deseas subir un archivo para el escaneo, por ejemplo, para la aplicación con ID 2194204 y el archivo está en path/to/your/file.zip, usarías:
+```bash
 python tu_script.py --app_id "2194204" --file_path "path/to/your/file.zip"
+```
 
 #Nota Adicional
 -Asegúrate de que el archivo a subir esté accesible y la ruta proporcionada sea correcta.

@@ -12,6 +12,10 @@ BEGINPRESCAN_ENDPOINT = 'beginprescan.do'
 GET_BUILD_INFO_ENDPOINT = 'getbuildinfo.do'
 DETAILEDREPORT_ENDPOINT = 'detailedreport.do'
 
+# URL específica para el PDF
+PDF_BASE_URL = 'https://analysiscenter.veracode.com/api/4.0/'
+DETAILEDREPORTPDF_ENDPOINT = 'detailedreportpdf.do'
+
 def list_apps():
     url = BASE_URL + GET_APP_LIST_ENDPOINT
     auth = RequestsAuthPluginVeracodeHMAC()
@@ -131,6 +135,27 @@ def get_detailed_report(build_id):
     except requests.exceptions.RequestException as e:
         print(f"Error en la solicitud detailedreport: {e}")
 
+def get_detailed_report_pdf(build_id):
+    url = PDF_BASE_URL + DETAILEDREPORTPDF_ENDPOINT
+    auth = RequestsAuthPluginVeracodeHMAC()
+    
+    # Parámetros de la solicitud
+    params = {'build_id': build_id}
+    
+    try:
+        # Realizar la solicitud GET para obtener el PDF
+        response = requests.get(url, auth=auth, params=params)
+        response.raise_for_status()  # Lanza una excepción para códigos de estado HTTP 4xx/5xx
+        
+        # Guardar la respuesta en un archivo PDF
+        pdf_filename = f'detailed_report_{build_id}.pdf'
+        with open(pdf_filename, 'wb') as file:
+            file.write(response.content)
+        
+        print(f"El informe PDF ha sido guardado como '{pdf_filename}'.")
+    except requests.exceptions.RequestException as e:
+        print(f"Error en la solicitud detailedreportpdf: {e}")
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Script para interactuar con la API XML de Veracode.')
     parser.add_argument('--list_apps', action='store_true', help='Lista todas las aplicaciones con sus IDs.')
@@ -152,7 +177,10 @@ if __name__ == '__main__':
             # Verificar el estado del escaneo
             check_scan_status(args.app_id, build_id)
             
-            # Ejecutar la solicitud del informe detallado
+            # Ejecutar la solicitud del informe detallado en XML
             get_detailed_report(build_id)
+            
+            # Ejecutar la solicitud del informe detallado en PDF
+            get_detailed_report_pdf(build_id)
     else:
         print("Debe especificar '--list_apps' para listar las aplicaciones o '--app_id' y '--file_path' para realizar un análisis.")

@@ -59,6 +59,7 @@ Reemplaza <RUTA_DEL_ARCHIVO> con la ruta al archivo que deseas analizar.
 2. Iniciar el prescan: Se ejecuta begin_prescan(app_id), que inicia el escaneo prescan para la aplicación y devuelve el build_id.
 3. Verificar el estado del escaneo: Se ejecuta check_scan_status(app_id, build_id), que consulta repetidamente el estado del escaneo hasta que los resultados estén listos.
 4. Obtener el informe detallado: Se ejecuta get_detailed_report(build_id), que descarga el informe detallado y lo guarda en detailed_report.xml.
+5. Descarga y guarda el archivo de reporte del scan en  detailed_report.pdf.
 
 # Ejemplo de Uso
 Supongamos que quieres listar aplicaciones en Veracode:

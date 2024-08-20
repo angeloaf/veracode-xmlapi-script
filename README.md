@@ -39,7 +39,7 @@ La estructura del proyecto es la siguiente:
 ```bash
 entornov/
 │
-├── env/                 # Carpeta del entorno virtual (NO pongas los reportes aquí)
+├── myenv/               # Carpeta del entorno virtual (NO pongas los reportes aquí)
 │   ├── Lib/
 │   ├── Scripts/
 │   └── ...
@@ -47,7 +47,7 @@ entornov/
 ├── src/                 # Carpeta donde está tu código fuente
 │   └── veracode_script.py               # Tu script principal
 │
-├── reports/             # Carpeta donde se guardarán los reportes generados
+├── reportes/            # Carpeta donde se guardarán los reportes generados
 │   └── detailed_report.pdf    # Tu reporte de scan
 │
 └── requirements.txt     # Dependencias del proyecto

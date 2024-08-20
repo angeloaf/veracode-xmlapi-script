@@ -45,10 +45,10 @@ entornov/
 │   └── ...
 │
 ├── src/                 # Carpeta donde está tu código fuente
-│   └── main.py          # Tu script principal
+│   └── veracode_script.py               # Tu script principal
 │
 ├── reports/             # Carpeta donde se guardarán los reportes generados
-│   └── detailed_report.pdf
+│   └── detailed_report.pdf    # Tu reporte de scan
 │
 └── requirements.txt     # Dependencias del proyecto
 ```

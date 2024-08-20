@@ -1,28 +1,57 @@
 # veracode-xmlapi-script
-Análisis estático y generación de archivo xml con los resultados.
-
-# Veracode API Script
-
-Este script permite interactuar con la API de Veracode para subir archivos, iniciar un prescan, verificar el estado del escaneo y obtener un informe detallado.
+Este repositorio contiene un script en Python que interactúa con la API XML de Veracode para realizar operaciones como listar aplicaciones, subir archivos, iniciar prescans y descargar informes detallados en formato PDF.
 
 ## Requisitos
-
 - Python 3.x
-- Paquetes: requests, veracode_api_signing
-
-## Instalación
-
-Clona el repositorio y navega al directorio:
-
-```bash
-git clone https://github.com/<tu-usuario>/veracode-api-script.git
-cd veracode-api-script
-```
+- Paquetes listados en requirements.txt
 
 ## Administrar credenciales de API
-
 Seguir los pasos descritos en la documentación para administrar correctamente las credenciales. 
 Link: https://docs.veracode.com/r/c_api_credentials3
+
+# Configuración del Entorno
+Es recomendable usar un entorno virtual para evitar conflictos de dependencias. Sigue estos pasos:
+
+1. Crear el entorno virtual:
+```bash
+python -m venv env
+```
+
+2.Activar el entorno virtual:
+
+En Windows:
+```bash
+.\env\Scripts\activate
+```
+
+En macOS/Linux:
+```bash
+source env/bin/activate
+```
+
+3.Instalar las dependencias:
+```bash
+pip install -r requirements.txt
+```
+
+# Estructura del Proyecto
+La estructura del proyecto es la siguiente:
+```bash
+entornov/
+│
+├── env/                 # Carpeta del entorno virtual (NO pongas los reportes aquí)
+│   ├── Lib/
+│   ├── Scripts/
+│   └── ...
+│
+├── src/                 # Carpeta donde está tu código fuente
+│   └── main.py          # Tu script principal
+│
+├── reports/             # Carpeta donde se guardarán los reportes generados
+│   └── detailed_report.pdf
+│
+└── requirements.txt     # Dependencias del proyecto
+```
 
 # Manual de uso
 El script tiene dos funcionalidades principales que puedes ejecutar desde la línea de comandos:
@@ -35,7 +64,7 @@ Esta opción lista todas las aplicaciones disponibles en tu cuenta de Veracode.
 
 Comando para listar aplicaciones:
 ```bash
-python tu_script.py --list_apps
+python src/tu_script.py --list_apps
 ```
 Esto ejecutará la función list_apps(), que hará una solicitud a la API de Veracode para obtener la lista de aplicaciones y sus IDs. Imprimirá los nombres y IDs de las aplicaciones en la consola.
 
@@ -48,7 +77,7 @@ Necesitarás proporcionar dos argumentos: --app_id (ID de la aplicación) y --fi
 
 Comando para subir un archivo y ejecutar un escaneo:
 ```bash
-python tu_script.py --app_id <ID_DE_LA_APLICACION> --file_path <RUTA_DEL_ARCHIVO>
+python src/tu_script.py --app_id <ID_DE_LA_APLICACION> --file_path <RUTA_DEL_ARCHIVO>
 ```
 Reemplaza <ID_DE_LA_APLICACION> con el ID de la aplicación donde deseas subir el archivo.
 Reemplaza <RUTA_DEL_ARCHIVO> con la ruta al archivo que deseas analizar.
@@ -59,17 +88,17 @@ Reemplaza <RUTA_DEL_ARCHIVO> con la ruta al archivo que deseas analizar.
 2. Iniciar el prescan: Se ejecuta begin_prescan(app_id), que inicia el escaneo prescan para la aplicación y devuelve el build_id.
 3. Verificar el estado del escaneo: Se ejecuta check_scan_status(app_id, build_id), que consulta repetidamente el estado del escaneo hasta que los resultados estén listos.
 4. Obtener el informe detallado: Se ejecuta get_detailed_report(build_id), que descarga el informe detallado y lo guarda en detailed_report.xml.
-5. Descarga y guarda el archivo de reporte del scan en  detailed_report.pdf.
+5. Descarga y guarda el archivo "detailed_report.pdf" de reporte del scan en la carpeta "reportes".
 
 # Ejemplo de Uso
 Supongamos que quieres listar aplicaciones en Veracode:
 ```bash
-python tu_script.py --list_apps
+python src/tu_script.py --list_apps
 ```
 
 Si deseas subir un archivo para el escaneo, por ejemplo, para la aplicación con ID 2194204 y el archivo está en path/to/your/file.zip, usarías:
 ```bash
-python tu_script.py --app_id "2194204" --file_path "path/to/your/file.zip"
+python src/tu_script.py --app_id "2194204" --file_path "path/to/your/file.zip"
 ```
 
 # Nota Adicional

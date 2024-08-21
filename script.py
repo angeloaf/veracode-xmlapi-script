@@ -100,15 +100,15 @@ def get_detailed_report_pdf(build_id):
         response = requests.get(url, auth=auth, params=params)
         response.raise_for_status()
 
-        # Determinar la ruta absoluta para la carpeta "reports"
+        # Determinar la ruta absoluta para la carpeta "reportes"
         root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        reports_dir = os.path.join(root_dir, 'reports')
+        reportes_dir = os.path.join(root_dir, 'reportes')
 
-        # Crear la carpeta "reports" si no existe
-        os.makedirs(reports_dir, exist_ok=True)
+        # Crear la carpeta "reportes" si no existe
+        os.makedirs(reportes_dir, exist_ok=True)
 
-        # Guardar el reporte PDF en la carpeta "reports"
-        pdf_filename = os.path.join(reports_dir, f'detailed_report_{build_id}.pdf')
+        # Guardar el reporte PDF en la carpeta "reportes"
+        pdf_filename = os.path.join(reportes_dir, f'detailed_report_{build_id}.pdf')
         with open(pdf_filename, 'wb') as file:
             file.write(response.content)
 
